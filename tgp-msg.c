@@ -410,6 +410,16 @@ static char *tgp_msg_sticker_display (struct tgl_state *TLS, tgl_peer_id_t from,
   used_images_add (conn, img);
   text = tgp_format_img (img);
   *flags |= PURPLE_MESSAGE_IMAGES;
+#elif 1
+  connection_data *conn = TLS->ev_base;
+  int img = p2tgl_imgstore_add_with_id ((char *) filename);
+  if (img <= 0) {
+    failure ("Cannot display sticker, adding to imgstore failed");
+    return NULL;
+  }
+  used_images_add (conn, img);
+  text = tgp_format_img (img);
+  *flags |= PURPLE_MESSAGE_IMAGES;
 #else
   const char *txt_user = tgp_blist_lookup_purple_name (TLS, from);
   
